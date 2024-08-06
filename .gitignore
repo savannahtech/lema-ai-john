@@ -1,0 +1,6 @@
+*.env
+logs/
+postgres-data/
+redis-data/
+commits.json
+repos.json

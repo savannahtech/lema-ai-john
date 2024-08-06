@@ -1,0 +1,39 @@
+name: savannah
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: savannah
+    ports:
+      - 8080:8080
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+    env_file:
+      - .env.example
+    networks:
+      - savannah
+    restart: always
+
+  db:
+    image: postgres:latest
+    container_name: db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+    expose:
+      - 5432
+    networks:
+      - savannah
+
+networks:
+  savannah:
+    driver: bridge
